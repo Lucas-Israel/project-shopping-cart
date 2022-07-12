@@ -27,14 +27,14 @@ const createProductItemElement = ({ sku, name, image }) => {
 const getSkuFromProductItem = (item) => item.querySelector('span.item__sku').innerText;
 
 const cartItemClickListener = (event) => {
-  console.log('abc');
+  event.path[0].remove();
 };
 
 const createCartItemElement = ({ sku, name, salePrice }) => {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cartItemClickListener);
+  li.addEventListener('click', (event) => cartItemClickListener(event));
   return li;
 };
 
@@ -43,7 +43,6 @@ const btnAdd = () => {
   const ol = document.querySelector('.cart__items');
   btAdd.forEach((btn) => btn.addEventListener('click', async () => {
     const item = await fetchItem(getSkuFromProductItem(btn.parentNode));
-    console.log(item);
     const { id: sku, title: name, price: salePrice } = item;
     ol.appendChild(createCartItemElement({ sku, name, salePrice }));
   }));
