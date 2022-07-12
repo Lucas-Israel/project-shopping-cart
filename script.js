@@ -1,5 +1,3 @@
-// const { fetchProducts } = require('./helpers/fetchProducts');
-
 const createProductImageElement = (imageSource) => {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -29,7 +27,7 @@ const createProductItemElement = ({ sku, name, image }) => {
 const getSkuFromProductItem = (item) => item.querySelector('span.item__sku').innerText;
 
 const cartItemClickListener = (event) => {
-  // coloque seu código aqui
+  console.log('abc');
 };
 
 const createCartItemElement = ({ sku, name, salePrice }) => {
@@ -40,11 +38,22 @@ const createCartItemElement = ({ sku, name, salePrice }) => {
   return li;
 };
 
-const createList = async () => {
+const btnAdd = () => {
+  const btAdd = document.querySelectorAll('button');
+  const ol = document.querySelector('.cart__items');
+  btAdd.forEach((btn) => btn.addEventListener('click', async () => {
+    const item = await fetchItem(getSkuFromProductItem(btn.parentNode));
+    console.log(item);
+    const { id: sku, title: name, price: salePrice } = item;
+    ol.appendChild(createCartItemElement({ sku, name, salePrice }));
+  }));
+};
+
+const createProducts = async (numero) => {
   const lista = await fetchProducts('computador');
   const pai = document.getElementsByClassName('items');
   lista.results.forEach((produto, index) => {
-    if (index < 50) {
+    if (index < numero) {
       const item = createProductItemElement({
         sku: produto.id,
         name: produto.title,
@@ -53,8 +62,9 @@ const createList = async () => {
       pai[0].appendChild(item);
     }
   });
+  btnAdd();
 };
 
 window.onload = () => {
-  createList();
+  createProducts(50);
 };
