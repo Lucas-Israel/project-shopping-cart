@@ -27,7 +27,7 @@ const createProductItemElement = ({ sku, name, image }) => {
 const getSkuFromProductItem = (item) => item.querySelector('span.item__sku').innerText;
 
 const cartItemClickListener = (event) => {
-  event.path[0].remove();
+  event.composedPath()[0].remove();
 };
 
 const createCartItemElement = ({ sku, name, salePrice }) => {
@@ -39,7 +39,7 @@ const createCartItemElement = ({ sku, name, salePrice }) => {
 };
 
 const btnAdd = () => {
-  const btAdd = document.querySelectorAll('button');
+  const btAdd = document.querySelectorAll('.item__add');
   const ol = document.querySelector('.cart__items');
   btAdd.forEach((btn) => btn.addEventListener('click', async () => {
     const item = await fetchItem(getSkuFromProductItem(btn.parentNode));
