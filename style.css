@@ -147,3 +147,16 @@ body {
   border: 2px solid rgb(5, 52, 219);
   background-color: rgb(249, 249, 246);
 }
+
+.price-section {
+  display: flex;
+  margin-top: 15px;
+  background-color: rgb(10, 118, 79);
+  padding: 5px;
+  justify-content: center;
+}
+
+.total-text , .total-price {
+  font-weight: 600;
+  color: white;
+}
