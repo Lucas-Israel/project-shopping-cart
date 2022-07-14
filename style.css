@@ -146,6 +146,7 @@ body {
   margin: 0 auto;
   border: 2px solid rgb(5, 52, 219);
   background-color: rgb(249, 249, 246);
+  margin-top: 10px;
 }
 
 .price-section {
@@ -159,4 +160,8 @@ body {
 .total-text , .total-price {
   font-weight: 600;
   color: white;
+}
+
+li {
+  padding-top: 10px;
 }

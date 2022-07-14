@@ -31,7 +31,7 @@ const precoTotal = () => {
     const value = Number(string);
     soma += value;
   });
-  total.innerText = soma;
+  total.innerText = parseFloat(soma.toFixed(2));
 };
 
 const createProductItemElement = ({ sku, name, image }) => {
@@ -103,6 +103,18 @@ const createProducts = async (numero) => {
   btnAdd();
 };
 
+const listedItemToObject = (string) => {
+  const obj = {};
+  const replaced = string.replaceAll(' | ', ' ');
+  const skuVal = replaced.replaceAll(/ NAME: \w*.*/g, '').replaceAll('SKU: ', '');
+  const nameVal = replaced.replaceAll(/(.*\w*NAME: | PRICE: \$\w*.*)/g, '');
+  const salePriceVal = replaced.replaceAll(/.*PRICE: \$/g, '');
+  obj.sku = skuVal;
+  obj.name = nameVal;
+  obj.salePrice = salePriceVal;
+  return obj;
+};
+
 const loadCartItems = () => {
   const load = getSavedCartItems('cartItems');
   const ol = document.querySelector('.cart__items');
@@ -110,15 +122,9 @@ const loadCartItems = () => {
   try {
     if (loaded === null) throw new Error('Não tem cache');
     Object.values(loaded).forEach((item) => {
-      const li = document.createElement('li');
-      li.className = 'cart__item';
-      li.innerText = item;
-      li.addEventListener('click', (event) => {
-        cartItemClickListener(event);
-        savingCartList();
-      });
+      const li = createCartItemElement(listedItemToObject(item));
       ol.appendChild(li);
-    });
+      });
   } catch (error) {
     return error;
   }
